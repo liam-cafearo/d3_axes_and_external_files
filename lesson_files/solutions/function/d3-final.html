@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<link rel="stylesheet" href=
+ "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"
+>
+<style>
+body {
+  font: 16px sans-serif;
+}
+rect:hover {
+    fill: #FFA623;  /* fill with a yellow */
+}
+.title {
+  font: 25px sans-serif;
+}
+.tooltip {
+    position: absolute;
+    padding: 5px 10px; 
+    background: white; 
+    border-radius: 3px; 
+    font-family: dosis;   /* we need to import this font*/
+    font-weight: bold; 
+    opacity: 1;	
+}
+.hidden {
+    display: none;  
+}
+.showit {
+    display: block;  
+}
+.axis text {
+  font: 10px sans-serif;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+} 
+</style>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>
+	<div class="row">
+		 <div  class="col-md-6" id='chart0'></div>
+		 <div  class="col-md-6" id='chart1'></div>
+	</div>
+	<div class="row">
+		 <div  class="col-md-12" id='chart2'></div>
+	</div>
+</body>
+
+<script src="js/d3chart.js"></script>
+
+<script>
+//place you D3 code here
+
+var svgWidth = 1000,
+    svgHeight = 500;
+
+var margin = {top: 50, right: 50, bottom: 50, left: 70}; 
+var spacing= 2;
+
+var myData = [
+		{student:"Tom",mark:33},
+		{student:"Liam",mark:22},
+		{student:"Andrew",mark:58},
+		{student:"Sarah",mark:11},
+		{student:"Penelope",mark:23},
+		{student:"Colm",mark:77},
+		{student:"Ingrid",mark:90},
+		{student:"Joseph",mark:80},
+		{student:"Nacho",mark:21},
+		{student:"Chris",mark:80},
+		{student:"Laura",mark:100}
+		];
+myData.forEach(function(d) {
+       d.username = d.student;
+       d.score = d.mark;   
+     });
+d3BarChart(svgWidth,svgHeight,margin,spacing,"#chart0",myData); 
+//
+d3.csv("list.csv", function(error, myData) {
+    myData.forEach(function(d) {
+       d.username = d.user;
+       d.score = +d.highscore;   //the + here converts to a number
+     });	 
+	d3LinePlotChart(svgWidth,svgHeight,margin,spacing,"#chart1",myData);
+});
+
+d3.json("list.json", function(error, myData) {
+    myData.forEach(function(d) {
+       d.score = +d.score;   //the + here converts to a number
+     });
+	 d3HorizontalBarChart(svgWidth,svgHeight,margin,spacing,"#chart2",myData);
+});
+
+
+</script>
+</html>
